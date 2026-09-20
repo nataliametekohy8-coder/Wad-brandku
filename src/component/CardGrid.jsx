@@ -1,35 +1,31 @@
-import "./CardGrid.css";
+import { useEffect, useState } from "react";
+import { getData } from "../api/getdata";
+import Card from "./Card";
 
-const CardGrid = ({ features = [] }) => {
-  return (
-    <section className="section section--alt" id="fitur">
-      <div className="container">
-        <div className="section__header">
-          <span className="eyebrow">Fitur</span>
-          <h2>Semua yang kamu butuhkan</h2>
-          <p className="section__subtitle">
-            Dirancang supaya bisnis kecil bisa jalan cepat tanpa ribet.
-          </p>
-        </div>
 
-        <div className="card-grid">
-          {features.length === 0 ? (
-            <p className="card-grid__empty">Belum ada fitur untuk ditampilkan.</p>
-          ) : (
-            features.map((feature) => (
-              <article className="card" key={feature.id}>
-                <div className="card__icon" aria-hidden="true">
-                  {feature.icon}
-                </div>
-                <h3 className="card__title">{feature.title}</h3>
-                <p className="card__subtitle">{feature.subtitle}</p>
-              </article>
-            ))
-          )}
+function CardGrid() {
+    const [products, setProducts] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await getData();
+            setProducts(data);
+        }
+
+        fetchData();
+    }, []);
+
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+            {products.map((product) => (
+            <Card
+                key={product.id}
+                image={product.image}
+                title={product.title}
+                subtitle={`$${product.price}`}
+            />
+            ))}
         </div>
-      </div>
-    </section>
-  );
+    );
 };
 
 export default CardGrid;

@@ -1,12 +1,13 @@
 import Hero from "../component/Hero";
+import CardGrid from "../component/CardGrid";
 
-const Home = () => {
+function Home() {
   return (
     <div>
-    
       <Hero />
+      <CardGrid /> 
     </div>
   );
-};
+}
 
-export default Home
+export default Home;
